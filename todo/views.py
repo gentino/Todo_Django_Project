@@ -51,7 +51,9 @@ def create(request):
     if request.method =="POST":
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save()
+            task = form.save(commit=False)
+            task.owner=request.user
+            task.save()
             messages.success(request,f'You Task successfully added')
             return redirect('index')
     else:
