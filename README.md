@@ -16,9 +16,9 @@ A simple To-Do web application built with Django that allows users to manage the
 * Python
 * Django
 * HTML
-* CSS
+* TAILWIND CSS
 * JavaScript
-* SQLite (default)
+* POSTGRES
 
 ## Installation
 
