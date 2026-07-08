@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+
+{% block title %}TodoFlow - New To do {% endblock %}
+
+{% block content %}
+
+
+<div class="flex  align-items-center justify-center p-3 bg-gray-200">
+    <form method="POST" action="{% url 'create' %}" class="p-10 bg-white rounded-lg shadow-md">
+        {% csrf_token %}
+
+        <div class="pb-3">
+            <label class="text-gray-700 font-bold">Title</label>
+            {{form.title}}
+            <small class="font-sm text-red-600">
+                {{form.tittle.errors}}
+            </small>
+        </div>
+
+        <div class="pb-3">
+            <label class="text-gray-700 font-bold">Description</label>
+            {{form.description}}
+            <small class="font-sm text-red-600">
+                {{form.description.errors}}
+            </small>
+        </div>
+
+        <button class="p-3 w-full rounded-lg bg-blue-600 text-gray-100 font-bold"> Create </button>
+    </form> 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

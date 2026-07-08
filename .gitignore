@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv/
+
+# Environment Variables
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Logs
+*.log
+
+# SQLite Database
+db.sqlite3
+
+# Static files collected by collectstatic
+staticfiles/
+
+# Media uploads
+media/
+
+# Python cache
+*.pyc
+*.pyo
+
+# Distribution
+build/
+dist/
+*.egg-info/
+
+# Coverage
+.coverage
+htmlcov/
+
+# pytest
+.pytest_cache/
+
+# Migrations (optional)
+# **/migrations/*
+# !**/migrations/__init__.py

@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% block title %} Confirm Task Delete - Todo Task {% endblock %}
+
+{% block content %}
+<div class="flex  items-center justify-center p-3 bg-gray-200 h-screen">
+   
+
+    <form method="POST" class="p-10 rounded-lg  w-96 bg-white   ">
+        {% csrf_token %}
+         <p class="text-center mb-4">Are you sure you want to delete<strong>{{ task.title }}</strong>?</p>
+
+        <button class="bg-red-800 font-bold text-red-100 m-2 px-3 py-2 rounded-lg"> Yes, Delete</button>
+        <a href="{% url 'index' %}" class="p-x-2 py-3 text-gray-800 bg-gray-200 font-bold m-2 px-3 py-2 rounded-lg"> No, cancel </a>
+    </form>
+
+
+</div>
+
+
+
+{% endblock %}

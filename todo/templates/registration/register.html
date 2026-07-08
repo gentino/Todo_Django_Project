@@ -1,0 +1,44 @@
+
+{% extends '../index.html' %}
+
+{% block title %}   Todo -Register    {% endblock %}
+
+{% block content %}
+
+
+<div class="flex h-screen items-center justify-center bg-gray-100">
+        <form method="POST" class="bg-white p-8 rounded-lg shadow-md w-96" action="{% url 'signup' %}">
+        {% csrf_token %}
+
+        <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+        {{ form.username}}
+         <small  class="text-red-600">{{form.username.errors}}</small>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+        {{ form.email}}
+        <small  class="text-red-600">{{form.email.errors}}</small>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+        {{ form.password1}}
+        <small  class="text-red-600">{{form.password1.errors}}</small>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Confrim Password</label>
+        {{ form.password2}}
+        <small  class="text-red-600">{{form.password2.errors}}</small>
+        </div>
+
+
+        <button class="p-2 w-full bg-red-600 font-medium  text-gray-100">Register </button>
+          <p  class="text-xs mt-3">Already created an account?  <a href="{% url 'signin' %}" class="font-bold text-blue-600">Login here </a></p>
+        </form>
+        
+</div>
+{% endblock %}

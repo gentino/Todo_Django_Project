@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TodoFlow-Home {% endblock %}</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Remix Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        body{
+            font-family:'Plus Jakarta Sans',sans-serif;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+    </style>
+
+</head>
+
+<body class="bg-slate-50 text-slate-800">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+
+<div class="max-w-7xl mx-auto px-8">
+
+<div class="h-20 flex items-center justify-between">
+
+<a href="{% url 'index' %}" class="text-3xl font-extrabold text-blue-600">
+TodoFlow
+</a>
+
+<div class="hidden md:flex items-center gap-10 font-medium">
+    {% if user.is_authenticated%}
+    <a href="{% url 'index' %}" class="hover:text-blue-600 transition relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 hover:after:w-full after:bg-blue-600 after:transition-all">
+    Home
+    </a>
+
+    <a href="{% url 'create' %}" class="hover:text-blue-600 transition relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 hover:after:w-full after:bg-blue-600 after:transition-all">
+    Create
+    </a>
+
+    <a href="#" class="hover:text-blue-600 transition relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 hover:after:w-full after:bg-blue-600 after:transition-all">
+    Contact
+    </a>
+    {% else %}
+
+    <a href="{% url 'signin' %}" class="hover:text-blue-600 transition relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 hover:after:w-full after:bg-blue-600 after:transition-all">
+    Login
+    </a>
+
+    <a href="{% url 'signup' %}" class="hover:text-blue-600 transition relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 hover:after:w-full after:bg-blue-600 after:transition-all">
+    Register
+    </a>
+    {% endif %}
+
+</div>
+
+{% if user.is_authenticated %}
+<form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+<button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition">
+Logout
+</button>
+</form>
+{% endif %}
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ================= HERO ================= -->
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="mb-4 rounded-lg p-4
+            {% if message.tags == 'success' %}
+                bg-green-100 text-green-700
+            {% elif message.tags == 'error' %}
+                bg-red-100 text-red-700
+            {% elif message.tags == 'warning' %}
+                bg-yellow-100 text-yellow-700
+            {% else %}
+                bg-blue-100 text-blue-700
+            {% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+
+{% block content  %}
+<section class="py-24">
+
+<div class="max-w-6xl mx-auto px-8 text-center">
+
+<span class="px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+✨ Stay Productive Every Day
+</span>
+
+<h1 class="text-6xl font-extrabold mt-8 leading-tight">
+
+Organize Your
+<span class="text-blue-600">
+Tasks
+</span>
+
+Beautifully
+
+</h1>
+
+<p class="text-slate-500 text-lg mt-6 max-w-2xl mx-auto leading-8">
+
+A clean and modern task manager that helps you stay focused,
+organized and productive.
+
+</p>
+
+{% if user.is_authenticated %}
+<div class="mt-10 flex justify-center gap-5">
+<a href="{% url 'create' %}"  class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg transition">
+    <i class="ri-add-line mr-2"></i>
+Create Task
+</a>
+</div>
+{% endif %}
+
+
+</div>
+
+</section>
+
+<!-- task-->
+<section class="pb-24">
+
+<div class="max-w-5xl mx-auto px-8">
+
+<div class="flex justify-between items-center mb-10">
+
+<div>
+
+<h2 class="text-3xl font-bold">
+
+All Tasks
+
+</h2>
+
+<p class="text-slate-500 mt-2">
+
+<strong> {{undone_tasks }}</strong> Tasks Remaining of <strong>{{ total_task}}</strong> Tasks
+
+</p>
+
+</div>
+
+<button class="bg-white border px-5 py-3 rounded-xl hover:shadow transition">
+
+<i class="ri-filter-3-line"></i>
+
+</button>
+
+</div>
+
+<div class="space-y-6">
+
+<!-- Card -->
+
+{% for task in tasks %}
+
+<div class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition duration-300 p-7 border border-slate-100">
+
+<div class="flex justify-between items-start">
+
+<div>
+
+<h3 class="font-bold text-xl">
+
+{{task.title}}
+
+</h3>
+
+<p class="text-slate-500 mt-2">
+
+{{task.description}}
+
+</p>
+
+    <div class="flex gap-3 mt-5">
+
+    {% if task.done %}
+        <span class="bg-gray-500 text-gray-100 px-4 py-1 rounded-full text-sm">
+            Done
+        </span>
+
+    {% else %}
+        <span class="bg-blue-100 text-blue-900 px-4 py-1 rounded-full text-sm">
+            Active
+        </span>
+    {% endif %}
+    <span class="bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm">
+
+    {{task.created_at}}
+
+    </span>
+
+    </div>
+
+    </div>
+
+
+    
+{% if user.is_authenticated %}
+<div class="flex gap-3">
+<a href="{% url 'task_edit' task.id %}" class="w-10 h-10 block rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white transition px-3 py-2">
+<i class="ri-edit-line"></i>
+</a>
+<a href="{% url 'delete_task' task.id %}" class="w-10 h-10 block rounded-xl bg-slate-100 hover:bg-red-500 hover:text-white transition px-3 py-2">
+<i class="ri-delete-bin-line"></i>
+</a>
+</div>
+{% endif %}
+
+</div>
+</div>
+
+{% endfor %}
+</div>
+</div>
+
+</section>
+
+
+{% endblock %}
+
+
+<footer class="bg-white border-t">
+
+<div class="max-w-6xl mx-auto px-8 py-8 flex justify-between items-center">
+
+<p class="text-slate-500">
+
+© 2026 TodoFlow. All Rights Reserved.
+
+</p>
+
+<div class="flex gap-5 text-2xl text-slate-400">
+
+<i class="ri-facebook-circle-line hover:text-blue-600 cursor-pointer"></i>
+
+<i class="ri-twitter-x-line hover:text-black cursor-pointer"></i>
+
+<i class="ri-instagram-line hover:text-pink-500 cursor-pointer"></i>
+
+<i class="ri-github-line hover:text-slate-900 cursor-pointer"></i>
+
+</div>
+
+</div>
+
+</footer>
+
+</body>
+</html>
